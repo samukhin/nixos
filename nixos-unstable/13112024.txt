@@ -1,0 +1,1973 @@
+
+Получаем options:
+
+nix-build ~/.nix-defexpr/channels_root/nixpkgs/nixos/release.nix -A options
+jq keys test/options.json | cut -d'.' -f1 | sed 's/"\|,\|]\|\[//g' | sort | uniq -c > test/options.txt
+
+Получаем:
+
+      1   appstream
+    286   boot
+      7   console
+     42   containers
+     18   documentation
+     10   dysnomia
+      3   ec2
+     46   environment
+     16   fileSystems
+     22   fonts
+      1   gtk
+    224   hardware
+     18   i18n
+     10   image
+     14   krb5
+      1   lib
+      3   location
+      1   _module
+    340   networking
+     53   nix
+      1   nixops
+      8   nixpkgs
+      3   openstack
+     12   power
+      9   powerManagement
+    499   programs
+      3   qt
+    305   security
+  14062   services
+     11   snapraid
+      5   sound
+      3   specialisation
+     18   swapDevices
+     40   system
+    564   systemd
+      2   time
+    133   users
+    252   virtualisation
+     17   xdg
+      7   zramSwap
+
+
+Сортируем по количеству:
+jq keys test/options.json | cut -d'.' -f1 | sed 's/"\|,\|]\|\[//g' | sort | uniq -c | sort -n
+
+И отбираем через jq keys test/options.json | grep \"NAME
+Или:
+jq keys options.json | grep \"security | grep -o ".*\..*\." | sort | uniq
+
+
+      1   appstream
+      appstream.enable
+
+      1   gtk
+      gtk.iconCache.enable
+
+      1   lib
+      Для определения самостоятельных функций и констант
+      https://github.com/NixOS/nixpkgs/blob/nixos-24.05/nixos/modules/misc/lib.nix
+      Ключи:
+      lib
+
+      1   _module
+      _module.args
+
+      1   nixops
+      nixops.enableDeprecatedAutoLuks
+
+      2   time
+      time.hardwareClockInLocalTime
+      time.timeZone
+
+      3   ec2
+      ec2.zfs.datasets
+      ec2.zfs.datasets.<name>.mount
+      ec2.zfs.datasets.<name>.properties
+
+      3   location
+      location.latitude
+      location.longitude
+      location.provider
+
+      3   openstack
+      openstack.zfs.datasets
+      openstack.zfs.datasets.<name>.mount
+      openstack.zfs.datasets.<name>.properties
+
+      3   qt
+      qt.enable
+      qt.platformTheme
+      qt.style
+
+      3   specialisation
+      specialisation
+      specialisation.<name>.configuration
+      specialisation.<name>.inheritParentConfig
+
+      5   sound
+      sound.enable
+      sound.enableOSSEmulation
+      sound.extraConfig
+      sound.mediaKeys.enable
+      sound.mediaKeys.volumeStep
+
+      7   console
+      console.colors
+      console.earlySetup
+      console.enable
+      console.font
+      console.keyMap
+      console.packages
+      console.useXkbConfig
+
+      7   zramSwap
+      zramSwap.algorithm
+      zramSwap.enable
+      zramSwap.memoryMax
+      zramSwap.memoryPercent
+      zramSwap.priority
+      zramSwap.swapDevices
+      zramSwap.writebackDevice
+
+      8   nixpkgs
+      nixpkgs.buildPlatform
+      nixpkgs.config
+      nixpkgs.crossSystem
+      nixpkgs.hostPlatform
+      nixpkgs.localSystem
+      nixpkgs.overlays
+      nixpkgs.pkgs
+      nixpkgs.system
+
+      9   powerManagement
+      powerManagement.cpuFreqGovernor
+      powerManagement.cpufreq.max
+      powerManagement.cpufreq.min
+      powerManagement.enable
+      powerManagement.powerDownCommands
+      powerManagement.powerUpCommands
+      powerManagement.powertop.enable
+      powerManagement.resumeCommands
+      powerManagement.scsiLinkPolicy
+
+      
+     10   dysnomia
+     dysnomia.components
+     dysnomia.containers
+     dysnomia.enable
+     dysnomia.enableAuthentication
+     dysnomia.enableLegacyModules
+     dysnomia.extraContainerPaths
+     dysnomia.extraContainerProperties
+     dysnomia.extraModulePaths
+     dysnomia.package
+     dysnomia.properties
+     
+     
+     10   image
+     image.repart.name
+     image.repart.package
+     image.repart.partitions
+     image.repart.partitions.<name>.contents
+     image.repart.partitions.<name>.contents.<name>.source
+     image.repart.partitions.<name>.repartConfig
+     image.repart.partitions.<name>.storePaths
+     image.repart.partitions.<name>.stripNixStorePrefix
+     image.repart.seed
+     image.repart.split
+     
+     11   snapraid
+     snapraid.contentFiles
+     snapraid.dataDisks
+     snapraid.enable
+     snapraid.exclude
+     snapraid.extraConfig
+     snapraid.parityFiles
+     snapraid.scrub.interval
+     snapraid.scrub.olderThan
+     snapraid.scrub.plan
+     snapraid.sync.interval
+     snapraid.touchBeforeSync
+     
+     12   power
+     power.ups.enable
+     power.ups.maxStartDelay
+     power.ups.mode
+     power.ups.schedulerRules
+     power.ups.ups
+     power.ups.ups.<name>.description
+     power.ups.ups.<name>.directives
+     power.ups.ups.<name>.driver
+     power.ups.ups.<name>.maxStartDelay
+     power.ups.ups.<name>.port
+     power.ups.ups.<name>.shutdownOrder
+     power.ups.ups.<name>.summary
+     powerManagement.cpuFreqGovernor
+     powerManagement.cpufreq.max
+     powerManagement.cpufreq.min
+     powerManagement.enable
+     powerManagement.powerDownCommands
+     powerManagement.powerUpCommands
+     powerManagement.powertop.enable
+     powerManagement.resumeCommands
+     powerManagement.scsiLinkPolicy
+     
+     14   krb5
+     krb5.appdefaults
+     krb5.capaths
+     krb5.config
+     krb5.defaultRealm
+     krb5.domainRealm
+     krb5.domain_realm
+     krb5.enable
+     krb5.extraConfig
+     krb5.kdc
+     krb5.kerberos
+     krb5.kerberosAdminServer
+     krb5.libdefaults
+     krb5.plugins
+     krb5.realms
+     
+     
+     16   fileSystems
+     fileSystems
+     fileSystems.<name>.autoFormat
+     fileSystems.<name>.autoResize
+     fileSystems.<name>.depends
+     fileSystems.<name>.device
+     fileSystems.<name>.encrypted.blkDev
+     fileSystems.<name>.encrypted.enable
+     fileSystems.<name>.encrypted.keyFile
+     fileSystems.<name>.encrypted.label
+     fileSystems.<name>.fsType
+     fileSystems.<name>.label
+     fileSystems.<name>.mountPoint
+     fileSystems.<name>.neededForBoot
+     fileSystems.<name>.noCheck
+     fileSystems.<name>.options
+     fileSystems.<name>.stratis.poolUuid
+     
+     17   xdg
+     xdg.autostart.enable
+     xdg.icons.enable
+     xdg.menus.enable
+     xdg.mime.addedAssociations
+     xdg.mime.defaultApplications
+     xdg.mime.enable
+     xdg.mime.removedAssociations
+     xdg.portal.config
+     xdg.portal.configPackages
+     xdg.portal.enable
+     xdg.portal.extraPortals
+     xdg.portal.lxqt.enable
+     xdg.portal.lxqt.styles
+     xdg.portal.wlr.enable
+     xdg.portal.wlr.settings
+     xdg.portal.xdgOpenUsePortal
+     xdg.sounds.enable
+     
+     
+     18   documentation
+     documentation.dev.enable
+     documentation.doc.enable
+     documentation.enable
+     documentation.info.enable
+     documentation.man.enable
+     documentation.man.generateCaches
+     documentation.man.man-db.enable
+     documentation.man.man-db.manualPages
+     documentation.man.man-db.package
+     documentation.man.mandoc.enable
+     documentation.man.mandoc.manPath
+     documentation.man.mandoc.package
+     documentation.nixos.enable
+     documentation.nixos.extraModuleSources
+     documentation.nixos.extraModules
+     documentation.nixos.includeAllModules
+     documentation.nixos.options.splitBuild
+     documentation.nixos.options.warningsAreErrors
+     
+     
+     18   i18n
+     i18n.defaultLocale
+     i18n.extraLocaleSettings
+     i18n.glibcLocales
+     i18n.inputMethod.enabled
+     i18n.inputMethod.fcitx5.addons
+     i18n.inputMethod.fcitx5.ignoreUserConfig
+     i18n.inputMethod.fcitx5.quickPhrase
+     i18n.inputMethod.fcitx5.quickPhraseFiles
+     i18n.inputMethod.fcitx5.settings.addons
+     i18n.inputMethod.fcitx5.settings.globalOptions
+     i18n.inputMethod.fcitx5.settings.inputMethod
+     i18n.inputMethod.ibus.engines
+     i18n.inputMethod.ibus.panel
+     i18n.inputMethod.kime.daemonModules
+     i18n.inputMethod.kime.extraConfig
+     i18n.inputMethod.kime.iconColor
+     i18n.inputMethod.uim.toolbar
+     i18n.supportedLocales
+     
+     
+     18   swapDevices
+     swapDevices
+     swapDevices.*.device
+     swapDevices.*.discardPolicy
+     swapDevices.*.encrypted.blkDev
+     swapDevices.*.encrypted.enable
+     swapDevices.*.encrypted.keyFile
+     swapDevices.*.encrypted.label
+     swapDevices.*.label
+     swapDevices.*.options
+     swapDevices.*.priority
+     swapDevices.*.randomEncryption
+     swapDevices.*.randomEncryption.allowDiscards
+     swapDevices.*.randomEncryption.cipher
+     swapDevices.*.randomEncryption.enable
+     swapDevices.*.randomEncryption.keySize
+     swapDevices.*.randomEncryption.sectorSize
+     swapDevices.*.randomEncryption.source
+     swapDevices.*.size
+     
+     22   fonts
+     fonts.enableDefaultPackages
+     fonts.enableGhostscriptFonts
+     fonts.fontDir.decompressFonts
+     fonts.fontDir.enable
+     fonts.fontconfig.allowBitmaps
+     fonts.fontconfig.allowType1
+     fonts.fontconfig.antialias
+     fonts.fontconfig.cache32Bit
+     fonts.fontconfig.defaultFonts.emoji
+     fonts.fontconfig.defaultFonts.monospace
+     fonts.fontconfig.defaultFonts.sansSerif
+     fonts.fontconfig.defaultFonts.serif
+     fonts.fontconfig.enable
+     fonts.fontconfig.hinting.autohint
+     fonts.fontconfig.hinting.enable
+     fonts.fontconfig.hinting.style
+     fonts.fontconfig.includeUserConf
+     fonts.fontconfig.localConf
+     fonts.fontconfig.subpixel.lcdfilter
+     fonts.fontconfig.subpixel.rgba
+     fonts.fontconfig.useEmbeddedBitmaps
+     fonts.packages
+     
+     40   system
+     system.activatable
+     system.activationScripts
+     system.autoUpgrade.allowReboot
+     system.autoUpgrade.channel
+     system.autoUpgrade.dates
+     system.autoUpgrade.enable
+     system.autoUpgrade.flags
+     system.autoUpgrade.flake
+     system.autoUpgrade.operation
+     system.autoUpgrade.persistent
+     system.autoUpgrade.randomizedDelaySec
+     system.autoUpgrade.rebootWindow
+     system.autoUpgrade.rebootWindow.lower
+     system.autoUpgrade.rebootWindow.upper
+     system.build
+     system.build.separateActivationScript
+     system.build.toplevel
+     system.checks
+     system.configurationRevision
+     system.copySystemConfiguration
+     system.extraDependencies
+     system.forbiddenDependenciesRegex
+     system.includeBuildDependencies
+     system.name
+     system.nixos.codeName
+     system.nixos.label
+     system.nixos.release
+     system.nixos.tags
+     system.nixos.variant_id
+     system.nssDatabases.group
+     system.nssDatabases.hosts
+     system.nssDatabases.passwd
+     system.nssDatabases.services
+     system.nssDatabases.shadow
+     system.replaceRuntimeDependencies
+     system.replaceRuntimeDependencies.*.original
+     system.replaceRuntimeDependencies.*.replacement
+     system.stateVersion
+     system.switch.enable
+     system.userActivationScripts
+     
+
+     
+     42   containers
+     containers
+     containers.<name>.additionalCapabilities
+     containers.<name>.allowedDevices
+     containers.<name>.allowedDevices.*.modifier
+     containers.<name>.allowedDevices.*.node
+     containers.<name>.autoStart
+     containers.<name>.bindMounts
+     containers.<name>.bindMounts.<name>.hostPath
+     containers.<name>.bindMounts.<name>.isReadOnly
+     containers.<name>.bindMounts.<name>.mountPoint
+     containers.<name>.config
+     containers.<name>.enableTun
+     containers.<name>.ephemeral
+     containers.<name>.extraFlags
+     containers.<name>.extraVeths
+     containers.<name>.extraVeths.<name>.forwardPorts
+     containers.<name>.extraVeths.<name>.forwardPorts.*.containerPort
+     containers.<name>.extraVeths.<name>.forwardPorts.*.hostPort
+     containers.<name>.extraVeths.<name>.forwardPorts.*.protocol
+     containers.<name>.extraVeths.<name>.hostAddress
+     containers.<name>.extraVeths.<name>.hostAddress6
+     containers.<name>.extraVeths.<name>.hostBridge
+     containers.<name>.extraVeths.<name>.localAddress
+     containers.<name>.extraVeths.<name>.localAddress6
+     containers.<name>.forwardPorts
+     containers.<name>.forwardPorts.*.containerPort
+     containers.<name>.forwardPorts.*.hostPort
+     containers.<name>.forwardPorts.*.protocol
+     containers.<name>.hostAddress
+     containers.<name>.hostAddress6
+     containers.<name>.hostBridge
+     containers.<name>.hostAddress6
+     containers.<name>.hostBridge
+     containers.<name>.interfaces
+     containers.<name>.localAddress
+     containers.<name>.localAddress6
+     containers.<name>.macvlans
+     containers.<name>.nixpkgs
+     containers.<name>.path
+     containers.<name>.privateNetwork
+     containers.<name>.restartIfChanged
+     containers.<name>.specialArgs
+     containers.<name>.timeoutStartSec
+     containers.<name>.tmpfs
+  
+     
+     46   environment
+     
+     environment.budgie.excludePackages
+     environment.checkConfigurationOptions
+     environment.cinnamon.excludePackages
+     environment.cinnamon.excludePackages
+     environment.deepin.excludePackages
+     environment.gnome.excludePackages
+     environment.lxqt.excludePackages
+     environment.mate.excludePackages
+     environment.pantheon.excludePackages
+     environment.plasma5.excludePackages
+     environment.xfce.excludePackages
+     
+     environment.defaultPackages
+     environment.enableAllTerminfo
+     environment.enableDebugInfo
+     environment.etc
+     environment.etc.<name>.enable
+     environment.etc.<name>.gid
+     environment.etc.<name>.group
+     environment.etc.<name>.mode
+     environment.etc.<name>.source
+     environment.etc.<name>.target
+     environment.etc.<name>.text
+     environment.etc.<name>.uid
+     environment.etc.<name>.user
+     environment.extraInit
+     environment.extraOutputsToInstall
+     environment.extraSetup
+     environment.freetds
+     environment.homeBinInPath
+     environment.interactiveShellInit
+     environment.localBinInPath
+     environment.loginShellInit
+     environment.memoryAllocator.provider
+     environment.noXlibs
+     environment.pathsToLink
+     environment.profileRelativeEnvVars
+     environment.profileRelativeSessionVariables
+     environment.profiles
+     environment.sessionVariables
+     environment.shellAliases
+     environment.shellInit
+     environment.shells
+     environment.systemPackages
+     environment.unixODBCDrivers
+     environment.variables
+     environment.wordlist.enable
+     environment.wordlist.lists
+     
+     53   nix
+     nix.buildMachines
+     nix.buildMachines.*.hostName
+     nix.buildMachines.*.mandatoryFeatures
+     nix.buildMachines.*.maxJobs
+     nix.buildMachines.*.protocol
+     nix.buildMachines.*.publicHostKey
+     nix.buildMachines.*.speedFactor
+     nix.buildMachines.*.sshKey
+     nix.buildMachines.*.sshUser
+     nix.buildMachines.*.supportedFeatures
+     nix.buildMachines.*.system
+     nix.buildMachines.*.systems
+     nix.channel.enable
+     nix.checkAllErrors
+     nix.checkConfig
+     nix.daemonCPUSchedPolicy
+     nix.daemonIOSchedClass
+     nix.daemonIOSchedPriority
+     nix.distributedBuilds
+     nix.enable
+     nix.extraOptions
+     nix.gc.automatic
+     nix.gc.dates
+     nix.gc.options
+     nix.gc.persistent
+     nix.gc.randomizedDelaySec
+     nix.nixPath
+     nix.nrBuildUsers
+     nix.optimise.automatic
+     nix.optimise.dates
+     nix.package
+     nix.registry
+     nix.registry.<name>.exact
+     nix.registry.<name>.flake
+     nix.registry.<name>.from
+     nix.registry.<name>.to
+     nix.settings
+     nix.settings.allowed-users
+     nix.settings.auto-optimise-store
+     nix.settings.cores
+     nix.settings.extra-sandbox-paths
+     nix.settings.max-jobs
+     nix.settings.require-sigs
+     nix.settings.sandbox
+     nix.settings.substituters
+     nix.settings.system-features
+     nix.settings.trusted-public-keys
+     nix.settings.trusted-substituters
+     nix.settings.trusted-users
+     nix.sshServe.enable
+     nix.sshServe.keys
+     nix.sshServe.protocol
+     nix.sshServe.write
+     
+    133   users
+    users.allowNoPasswordLogin
+    users.defaultUserShell
+    users.enforceIdUniqueness
+    users.extraGroups
+    users.extraGroups.<name>.gid
+    users.extraGroups.<name>.members
+    users.extraGroups.<name>.name
+    users.extraUsers
+    users.extraUsers.<name>.autoSubUidGidRange
+    users.extraUsers.<name>. ...
+    users.groups
+    users.groups.<name>.gid
+    users.groups.<name>.members
+    users.groups.<name>.name
+    users.ldap.base
+    users.ldap.bind.passwordFile
+    users.ldap. ....
+    users.motd
+    users.motdFile
+    users.mutableUsers
+    users.mysql.database
+    users.mysql.enable
+    users.mysql. ...
+    users.users
+    users.users.<name>.autoSubUidGidRange
+    users.users.<name>. ...
+    
+
+    
+    224   hardware
+    hardware.acpilight.enable
+    hardware.bladeRF.enable
+    hardware.bluetooth.disabledPlugins
+    hardware.bluetooth.enable
+    hardware.bluetooth. ...
+    hardware.brillo.enable
+    hardware.bumblebee.enable
+    hardware.bumblebee. ...
+    hardware.ckb-next.enable
+    hardware.ckb-next. ...
+    hardware.cpu.amd.sev.enable
+    hardware.cpu.amd.sev. ...
+    hardware.cpu.amd.sevGuest.enable
+    hardware.cpu.amd.sevGuest. ...
+    hardware.cpu.amd.updateMicrocode
+    hardware.cpu.intel.sgx.enableDcapCompat
+    hardware.cpu.intel.sgx.provision.enable
+    hardware.cpu.intel.sgx.provision.group
+    hardware.cpu.intel.sgx.provision.mode
+    hardware.cpu.intel.sgx.provision.user
+    hardware.cpu.intel.updateMicrocode
+    hardware.cpu.x86.msr.enable
+    hardware.cpu.x86.msr.group
+    hardware.cpu.x86.msr.mode
+    hardware.cpu.x86.msr.owner
+    hardware.cpu.x86.msr.settings
+    hardware.cpu.x86.msr.settings.allow-writes
+    hardware.decklink.enable
+    hardware.deviceTree.dtbSource
+    hardware.deviceTree.dtboBuildExtraIncludePaths
+    hardware.deviceTree.dtboBuildExtraPreprocessorFlags
+    hardware.deviceTree.enable
+    hardware.deviceTree.filter
+    hardware.deviceTree.kernelPackage
+    hardware.deviceTree.name
+    hardware.deviceTree.overlays
+    hardware.deviceTree.overlays.*.dtboFile
+    hardware.deviceTree.overlays.*. ...
+    hardware.digitalbitbox.enable
+    hardware.digitalbitbox.package
+    hardware.enableAllFirmware
+    hardware.enableRedistributableFirmware
+    hardware.facetimehd.enable
+    hardware.facetimehd.withCalibration
+    hardware.fancontrol.config
+    hardware.fancontrol.enable
+    hardware.firmware
+    hardware.flipperzero.enable
+    hardware.flirc.enable
+    hardware.gkraken.enable
+    hardware.glasgow.enable
+    hardware.gpgSmartcards.enable
+    hardware.hackrf.enable
+    hardware.i2c.enable
+    hardware.i2c.group
+    hardware.infiniband.enable
+    hardware.infiniband.guids
+    hardware.ipu6.enable
+    hardware.ipu6.platform
+    hardware.keyboard.qmk.enable
+    hardware.keyboard.teck.enable
+    hardware.keyboard.uhk.enable
+    hardware.keyboard.zsa.enable
+    hardware.ksm.enable
+    hardware.ksm.sleep
+    hardware.ledger.enable
+    hardware.logitech.lcd.devices
+    hardware.logitech.lcd.enable
+    hardware.logitech.lcd.startWhenNeeded
+    hardware.logitech.wireless.enable
+    hardware.logitech.wireless.enableGraphical
+    hardware.mcelog.enable
+    hardware.mwProCapture.enable
+    hardware.new-lg4ff.enable
+    hardware.nitrokey.enable
+    hardware.nvidia.datacenter. ***
+    hardware.nvidia.dynamicBoost.enable
+    hardware.nvidia.forceFullCompositionPipeline
+    hardware.nvidia.modesetting.enable
+    hardware.nvidia.nvidiaPersistenced
+    hardware.nvidia.nvidiaSettings
+    hardware.nvidia.open
+    hardware.nvidia.package
+    hardware.nvidia.powerManagement.enable
+    hardware.nvidia.powerManagement.finegrained
+    hardware.nvidia.prime.allowExternalGpu
+    hardware.nvidia.prime.amdgpuBusId
+    hardware.nvidia.prime. ***
+    hardware.nvidiaOptimus.disable
+    hardware.onlykey.enable
+    hardware.opengl.driSupport
+    hardware.opengl. ***
+    hardware.openrazer.devicesOffOnScreensaver
+    hardware.openrazer. ***
+    hardware.opentabletdriver. ***
+    hardware.parallels. ***
+    hardware.pcmcia. ***
+    hardware.printers. ***
+    hardware.pulseaudio ***
+    hardware.raid.HPSmartArray.enable
+    hardware.rasdaemon. ***
+    hardware.rtl-sdr.enable
+    hardware.saleae-logic. ***
+    hardware.sane ***
+    hardware.sata ***
+    hardware.sensor ***
+    hardware.spacenavd.enable
+    hardware.steam-hardware.enable
+    hardware.system76 ***
+    hardware.trackpoint ***
+    hardware.tuxedo***
+    hardware.ubertooth. **
+    hardware.uinput.enable
+    hardware.usb-modeswitch.enable
+    hardware.usbStorage.manageStartStop
+    hardware.wirelessRegulatoryDatabase
+    hardware.wooting.enable
+    hardware.xone.enable
+    hardware.xpadneo.enable
+    
+    252   virtualisation
+    virtualisation.anbox. ***
+    virtualisation.appvm. ***
+    virtualisation.containerd. ***
+    virtualisation.containers. ***
+    virtualisation.cri-o. ***
+    virtualisation.directBoot. ***
+    virtualisation.docker. ***
+    virtualisation.efi. ***
+    virtualisation.fileSystems.<name>. ***
+    virtualisation.forwardPorts.*. ***
+    virtualisation.host. ***
+    virtualisation.hypervGuest. ***
+    virtualisation.incus. ***
+    virtualisation.interfaces.<name>. ***
+    virtualisation.kvmgt. ***
+    virtualisation.interfaces.<name>. ***
+    virtualisation.kvmgt. ***
+    virtualisation.libvirtd. ***
+    virtualisation.lxc. ***
+    virtualisation.lxd. ***
+    virtualisation.multipass. ***
+    virtualisation.oci-containers. ***
+    virtualisation.podman. ***
+    virtualisation.qemu. ***
+    virtualisation.rosetta. ***
+    virtualisation.sharedDirectories.<name>. ***
+    virtualisation.spiceUSBRedirection. ***
+    virtualisation.tpm. ***
+    virtualisation.virtualbox.guest. ***
+    virtualisation.virtualbox.host. ***
+    virtualisation.vmware.guest. ***
+    virtualisation.vmware.host. ***
+    virtualisation.vswitch. ***
+    virtualisation.waydroid. ***
+    virtualisation.xen. ***
+
+
+    286   boot
+    boot.bcache. ***
+    boot.binfmt. ***
+    boot.binfmt.registrations.<name>.
+    boot.bootspec.
+    boot.crashDump.
+    boot.initrd.
+    boot.iscsi-initiator.
+    boot.kernel.
+    boot.loader.
+    boot.modprobeConfig.
+    boot.plymouth.
+    boot.specialFileSystems.<name>.
+    boot.swraid.
+    boot.tmp.
+    boot.uvesafb.
+    boot.zfs.
+
+
+    305   security
+    security.acme.
+    security.apparmor.
+    security.audit.
+    security.auditd.
+    security.chromiumSuidSandbox.
+    security.dhparams.
+    security.doas.
+    security.duosec.
+    security.googleOsLogin.
+    security.ipa.
+    security.ipa.dyndns.
+    security.loginDefs.
+    security.pam.
+    security.pki.
+    security.please.
+    security.polkit.
+    security.rtkit.
+    security.sudo.
+    security.sudo-rs.
+    security.tpm2.
+    security.virtualisation.
+    security.wrappers.<name>.
+
+
+    340   networking
+    networking.bonds.<name>.
+    networking.bridges.<name>.
+    networking.defaultGateway.
+    networking.defaultGateway6.
+    networking.dhcpcd.
+    networking.firewall.
+    networking.fooOverUDP.<name>.
+    networking.greTunnels.<name>.
+    networking.interfaces.<name>.
+    networking.iproute2.
+    networking.jool.
+    networking.macvlans.<name>.
+    networking.nat.
+    networking.networkmanager.
+    networking.nftables.
+    networking.openconnect.
+    networking.proxy.
+    networking.resolvconf.
+    networking.rxe.
+    networking.sits.<name>.
+    networking.stevenblack.
+    networking.supplicant.<name>.
+    networking.tcpcrypt.
+    networking.ucarp.
+    networking.vlans.<name>.
+    networking.vswitches.<name>.
+    networking.wg-quick.
+    networking.wireguard.
+    networking.wireless.
+    networking.wlanInterfaces.<name>.
+
+
+
+    499   programs
+    programs._1password.
+    programs._1password-gui.
+    programs.adb.
+    programs.appgate-sdp.
+    programs.atop.
+    programs.ausweisapp.
+    programs.autojump.
+    programs.bandwhich.
+    programs.bash.
+    programs.bcc.
+    programs.browserpass.
+    programs.calls.
+    programs.captive-browser.
+    programs.cardboard.
+    programs.ccache.
+    programs.cdemu.
+    programs.cfs-zen-tweaks.
+    programs.chromium.
+    programs.clash-verge.
+    programs.cnping.
+    programs.command-not-found.
+    programs.corectrl.
+    programs.criu.
+    programs.darling.
+    programs.dconf.
+    programs.digitalbitbox.
+    programs.direnv.
+    programs.dmrconfig.
+    programs.droidcam.
+    programs.dublin-traceroute.
+    programs.ecryptfs.
+    programs.evince.
+    programs.evolution.
+    programs.extra-container.
+    programs.feedbackd.
+    programs.file-roller.
+    programs.firefox.
+    programs.firejail.
+    programs.fish.
+    programs.flashrom.
+    programs.flexoptix-app.
+    programs.fuse.
+    programs.fzf.
+    programs.gamemode.
+    programs.gamescope.
+    programs.geary.
+    programs.git.
+    programs.git.prompt.
+    programs.gnome-disks.
+    programs.gnome-terminal.
+    programs.gnupg.
+    programs.gpaste.
+    programs.gphoto2.
+    programs.haguichi.
+    programs.hamster.
+    programs.htop.
+    programs.hyprland.
+    programs.i3lock.
+    programs.iay.
+    programs.iftop.
+    programs.iotop.
+    programs.java.
+    programs.k3b.
+    programs.k40-whisperer.
+    programs.kbdlight.
+    programs.kdeconnect.
+    programs.less.
+    programs.liboping.
+    programs.light.
+    programs.mdevctl.
+    programs.mepo.
+    programs.mininet.
+    programs.minipro.
+    programs.miriway.
+    programs.mosh.
+    programs.msmtp.
+    programs.mtr.
+    programs.nano.
+    programs.nbd.
+    programs.neovim.
+    programs.neovim.runtime.<name>.
+    programs.nethoscope.
+    programs.nix-index.
+    programs.nix-ld.
+    programs.nm-applet.
+    programs.nncp.
+    programs.noisetorch.
+    programs.npm.
+    programs.ns-usbloader.
+    programs.oddjobd.
+    programs.openvpn3.
+    programs.pantheon-tweaks.
+    programs.partition-manager.
+    programs.plotinus.
+    programs.projecteur.
+    programs.proxychains.
+    programs.qdmr.
+    programs.regreet.
+    programs.river.
+    programs.rog-control-center.
+    programs.rust-motd.
+    programs.screen.
+    programs.seahorse.
+    programs.sedutil.
+    programs.sharing.
+    programs.singularity.
+    programs.skim.
+    programs.slock.
+    programs.sniffnet.
+    programs.spacefm.
+    programs.ssh.
+    programs.starship.
+    programs.steam.
+    programs.streamdeck-ui.
+    programs.sway.
+    programs.sysdig.
+    programs.system-config-printer.
+    programs.systemtap.
+    programs.thefuck.
+    programs.thunar.
+    programs.tmux.
+    programs.traceroute.
+    programs.trippy.
+    programs.tsmClient.
+    programs.turbovnc.
+    programs.udevil.
+    programs.usbtop.
+    programs.vim.
+    programs.virt-manager.
+    programs.wavemon.
+    programs.waybar.
+    programs.wayfire.
+    programs.weylus.
+    programs.wireshark.
+    programs.wshowkeys.
+    programs.xastir.
+    programs.xfconf.
+    programs.xfs_quota.
+    programs.xonsh.
+    programs.xss-lock.
+    programs.xwayland.
+    programs.yabar.
+    programs.yazi.
+    programs.zmap.
+    programs.zsh.
+
+    564   systemd
+    systemd.automounts.*.
+    systemd.coredump.
+    systemd.mounts.*.
+    systemd.network.
+    systemd.nspawn.<name>.
+    systemd.oomd.
+    systemd.paths.<name>.
+    systemd.repart.
+    systemd.services.<name>.
+    systemd.shutdownRamfs.
+    systemd.sleep.
+    systemd.slices.<name>.
+    systemd.sockets.<name>.
+    systemd.sysupdate.
+    systemd.targets.<name>.
+    systemd.timers.<name>.
+    systemd.tmpfiles.
+    systemd.units.<name>.
+    systemd.user.
+    systemd.watchdog.
+
+
+  14062   services
+
+  _3proxy 
+accounts-daemon 
+acme-dns 
+acpid 
+activemq 
+actkbd 
+adguardhome 
+aerospike 
+aesmd 
+agate 
+airsonic 
+akkoma 
+alerta 
+alice-lg 
+alps 
+amazon-ssm-agent 
+amule 
+ananicy 
+ankisyncd 
+antennas 
+anuko-time-tracker 
+apache-kafka 
+apcupsd 
+arbtt 
+archisteamfarm 
+aria2 
+asterisk 
+asusd 
+atd 
+atftpd 
+atuin 
+audiobookshelf 
+authelia 
+auto-cpufreq 
+autofs 
+automatic-timezoned 
+automysqlbackup 
+autorandr 
+autossh 
+autosuspend 
+avahi 
+awstats 
+babeld 
+bamf 
+bazarr 
+bcg 
+beanstalkd 
+bee 
+bee-clef 
+beesd 
+below 
+bepasty 
+biboumi 
+bind 
+bird2 
+bird-lg 
+birdwatcher 
+bitcoind 
+bitlbee 
+blackfire-agent 
+blockbook-frontend 
+blocky 
+bloop 
+blueman 
+boinc 
+bookstack 
+borgbackup 
+borgmatic 
+bosun 
+botamusique 
+bpftune 
+brltty 
+btrbk 
+btrfs 
+buildbot-master 
+buildbot-worker 
+buildkite-agents 
+c2fmzq-server 
+cachefilesd 
+cachix-agent 
+cachix-watch-store 
+caddy 
+cadvisor 
+cage 
+calibre-server 
+calibre-web 
+canto-daemon 
+cassandra 
+castopod 
+centrifugo 
+ceph 
+certmgr 
+certspotter 
+cfdyndns 
+cfssl 
+cgit 
+cgminer 
+changedetection-io 
+charybdis 
+chatgpt-retrieval-plugin 
+chisel-server 
+chrony 
+cinnamon 
+cjdns 
+clamav 
+clamsmtp 
+clickhouse 
+clight 
+clipcat 
+clipmenu 
+cloudflared 
+cloudflare-dyndns 
+cloud-init 
+cloudlog 
+cntlm 
+cockpit 
+cockroachdb 
+coder 
+collectd 
+colord 
+confd 
+confluence 
+connman 
+consul 
+convos 
+coredns 
+corerad 
+corosync 
+coturn 
+couchdb 
+cpuminer-cryptonight 
+cpupower-gui 
+create_ap 
+croc 
+cron 
+crossfire-server 
+crowd 
+dae 
+dante 
+darkhttpd 
+das_watchdog 
+datadog-agent 
+davfs2 
+davmail 
+dbus 
+ddccontrol 
+ddclient 
+deconz 
+deepin 
+deliantra-server 
+deluge 
+dendrite 
+devmon 
+dex 
+dgraph 
+dictd 
+diod 
+discourse 
+disnix 
+distccd 
+dkimproxy-out 
+dleyna-renderer 
+dleyna-server 
+dnscache 
+dnscrypt-proxy2 
+dnscrypt-wrapper 
+dnsdist 
+dnsmasq 
+do-agent 
+dockerRegistry 
+documize 
+doh-proxy-rust 
+dokuwiki 
+dolibarr 
+domoticz 
+dovecot2 
+dragonflydb 
+drbd 
+dspam 
+duckling 
+duplicati 
+duplicity 
+dwm-status 
+earlyoom 
+ebusd 
+ecs-agent 
+ejabberd 
+elasticsearch 
+elasticsearch-curator 
+emacs 
+endlessh 
+endlessh-go 
+engelsystem 
+envfs 
+envoy 
+epgstation 
+epmd 
+ergo 
+ergochat 
+erigon 
+eris-server 
+errbot 
+esdm 
+espanso 
+esphome 
+etcd 
+etebase-server 
+eternal-terminal 
+etesync-dav 
+ethercalc 
+evcc 
+evdevremapkeys 
+exim 
+expressvpn 
+factorio 
+fail2ban 
+fakeroute 
+fanout 
+fastnetmon-advanced 
+fcgiwrap 
+fcron 
+felix 
+ferm 
+ferretdb 
+filebeat 
+firebird 
+firefox-syncserver 
+fireqos 
+flannel 
+flatpak 
+flexget 
+fluentd 
+fluidd 
+foldingathome 
+forgejo 
+foundationdb 
+fprintd 
+fractalart 
+freeciv 
+freefall 
+freenet 
+freeradius 
+freeswitch 
+freshrss 
+frigate 
+frp 
+frr 
+fstrim 
+fusionInventory 
+fwupd 
+galene 
+gammu-smsd 
+garage 
+gateone 
+gdomap 
+gemstash 
+geoclue2 
+geoipupdate 
+gerrit 
+geth 
+getty 
+ghostunnel 
+gitDaemon 
+gitea 
+gitea-actions-runner 
+github-runner 
+github-runners 
+gitlab 
+gitlab-runner 
+gitolite 
+gitweb 
+globalprotect 
+glusterfs 
+gmediarender 
+gnome 
+gnunet 
+go2rtc 
+go-autoconfig 
+gobgpd 
+gocd-agent 
+gocd-server 
+goeland 
+gogs 
+gollum 
+go-neb 
+gonic 
+go-shadowsocks2 
+goss 
+gotify 
+gotosocial 
+goxlr-utility 
+gpm 
+gpsd 
+grafana 
+grafana-agent 
+grafana-image-renderer 
+grafana_reporter 
+graphite 
+graylog 
+greenclip 
+greetd 
+grocy 
+gsignond 
+guacamole-client 
+guacamole-server 
+guix 
+gvfs 
+gvpe 
+hadoop 
+haka 
+hans 
+haproxy 
+hardware 
+harmonia 
+haste-server 
+haveged 
+hbase-standalone 
+hdapsd 
+hddfancontrol 
+headphones 
+headscale 
+healthchecks 
+heapster 
+heartbeat 
+hedgedoc 
+heisenbridge 
+hercules-ci-agent 
+hitch 
+hledger-web 
+hockeypuck 
+hologram-agent 
+hologram-server 
+home-assistant 
+homeassistant-satellite 
+homed 
+homepage-dashboard 
+honk 
+hoogle 
+hostapd 
+hound 
+hqplayerd 
+htpdate 
+httpd 
+https-dns-proxy 
+hydra 
+hydron 
+hylafax 
+i2p 
+i2pd 
+icecast 
+icingaweb2 
+ihaskell 
+illum 
+imaginary 
+incron 
+infinoted 
+influxdb 
+influxdb2 
+infnoise 
+input-remapper 
+inspircd 
+interception-tools 
+invidious 
+invoiceplane 
+iodine 
+iperf3 
+ipp-usb 
+iptsd 
+ircdHybrid 
+irkerd 
+irqbalance 
+isso 
+ivpn 
+jack 
+jackett 
+jboss 
+jellyfin 
+jellyseerr 
+jenkins 
+jenkinsSlave 
+jibri 
+jicofo 
+jira 
+jirafeau 
+jitsi-meet 
+jitsi-videobridge 
+jitterentropy-rngd 
+jmusicbot 
+journalbeat 
+journald 
+journaldriver 
+journalwatch 
+joycond 
+jupyter 
+jupyterhub 
+k3s 
+kanata 
+kanidm 
+kapacitor 
+karma 
+kasmweb 
+kavita 
+kbfs 
+kea 
+keepalived 
+kerberos_server 
+keter 
+keybase 
+keycloak 
+keyd 
+klipper 
+kmscon 
+knot 
+komga 
+kresd 
+kthxbye 
+kubernetes 
+kubo 
+lambdabot 
+languagetool 
+lanraragi 
+leaps 
+legit 
+lemmy 
+libreddit 
+librenms 
+libreswan 
+lidarr 
+lifecycled 
+lighthouse 
+lighttpd 
+limesurvey 
+liquidsoap 
+lirc 
+listmonk 
+litestream 
+livebook 
+lldap 
+lldpd 
+localtimed 
+locate 
+logcheck 
+logind 
+logkeys 
+logmein-hamachi 
+logrotate 
+logstash 
+loki 
+lokinet 
+longview 
+lorri 
+lshd 
+lvm 
+lxd-image-server 
+mackerel-agent 
+maddy 
+magic-wormhole-mailbox-server 
+magnetico 
+mail 
+mailcatcher 
+mailhog 
+mailman 
+mainsail 
+malcontent 
+mame 
+mastodon 
+matomo 
+matrix-appservice-discord 
+matrix-appservice-irc 
+matrix-conduit 
+matrix-synapse 
+matterbridge 
+mattermost 
+mautrix-facebook 
+mautrix-telegram 
+mautrix-whatsapp 
+mbpfan 
+mchprs 
+mealie 
+mediamtx 
+mediatomb 
+mediawiki 
+meilisearch 
+memcached 
+meme-bingo-web 
+merecat 
+meshcentral 
+metabase 
+metricbeat 
+microbin 
+mighttpd2 
+mimir 
+minecraft-server 
+minetest-server 
+minidlna 
+miniflux 
+minio 
+miniupnpd 
+mirakurun 
+miredo 
+mjolnir 
+mjpg-streamer 
+mlmmj 
+mmsd 
+mobilizon 
+molly-brown 
+monero 
+monetdb 
+mongodb 
+monica 
+monit 
+moodle 
+moonraker 
+moosefs 
+mopidy 
+morty 
+mosquitto 
+mozillavpn 
+mpd 
+mpdscribble 
+mqtt2influxdb 
+mstpd 
+mtprotoproxy 
+mtr-exporter 
+mullvad-vpn 
+multipath 
+munge 
+munin-cron 
+munin-node 
+murmur 
+mxisd 
+mx-puppet-discord 
+mysql 
+mysqlBackup 
+n8n 
+nagios 
+namecoind 
+nar-serve 
+nats 
+navidrome 
+nbd 
+ncdns 
+ndppd 
+neard 
+nebula 
+neo4j 
+netatalk 
+netbird 
+netbox 
+netclient 
+netdata 
+networkaudiod 
+networkd-dispatcher 
+networking 
+nextcloud 
+nextdns 
+nexus 
+nfs 
+nghttpx 
+nginx 
+ngircd 
+nifi 
+nitter 
+nixops-dns 
+nix-serve 
+nix-store-gcs-proxy 
+nncp 
+nntp-proxy 
+node-red 
+nomad 
+novacomd 
+nscd 
+nsd 
+ntfy-sh 
+ntopng 
+ntp 
+nullidentdmod 
+nullmailer 
+nylon 
+nzbget 
+nzbhydra2 
+oauth2_proxy 
+ocserv 
+ocsinventory-agent 
+octoprint 
+odoo 
+offlineimap 
+ofono 
+oidentd 
+ollama 
+ombi 
+onedrive 
+onlyoffice 
+openafsClient 
+openafsServer 
+openarena 
+opendkim 
+openiscsi 
+openldap 
+openntpd 
+opensearch 
+opensmtpd 
+opensnitch 
+openssh 
+opentelemetry-collector 
+opentracker 
+opentsdb 
+openvpn 
+openvscode-server 
+openwebrx 
+orangefs 
+osquery 
+osrm 
+ostinato 
+outline 
+owamp 
+owncast 
+oxidized 
+pacemaker 
+packagekit 
+pantalaimon-headless 
+pantheon 
+paperless 
+parsedmarc 
+parsoid 
+passSecretService 
+patroni 
+pcscd 
+pdnsd 
+pdns-recursor 
+peerflix 
+peering-manager 
+peertube 
+peroxide 
+persistent-evdev 
+pfix-srsd 
+pgadmin 
+pgbouncer 
+pgmanage 
+pgpkeyserver-lite 
+photoprism 
+phpfpm 
+phylactery 
+physlock 
+picom 
+picosnitch 
+pict-rs 
+pinnwand 
+pipewire 
+pixelfed 
+pixiecore 
+plantuml-server 
+plausible 
+pleroma 
+plex 
+plikd 
+podgrab 
+polaris 
+polipo 
+pomerium 
+portunus 
+postfix 
+postfixadmin 
+postgresql 
+postgresqlBackup 
+postgresqlWalReceiver 
+postgrey 
+postsrsd 
+powerdns 
+powerdns-admin 
+power-profiles-daemon 
+pppd 
+pptpd 
+preload 
+printing 
+privoxy 
+prometheus 
+promtail 
+prosody 
+prosody-filer 
+prowlarr 
+psd 
+public-inbox 
+pufferpanel 
+pykms 
+qdrant 
+qemuGuest 
+quake3-server 
+quassel 
+quicktun 
+quorum 
+r53-ddns 
+rabbitmq 
+radarr 
+radicale 
+radvd 
+ratbagd 
+rdnssd 
+readarr 
+redis 
+redmine 
+redshift 
+redsocks 
+replay-sorcery 
+resilio 
+resolved 
+restic 
+restya-board 
+riemann 
+riemann-dash 
+riemann-tools 
+rimgo 
+rippled 
+rippleDataApi 
+rkvm 
+rmfakecloud 
+robustirc-bridge 
+roon-bridge 
+roon-server 
+rosenpass 
+roundcube 
+routedns 
+rpcbind 
+rshim 
+rsnapshot 
+rspamd 
+rss2email 
+rss-bridge 
+rstudio-server 
+rsyncd 
+rsyslogd 
+rtorrent 
+rustus 
+sabnzbd 
+safeeyes 
+salt 
+samba 
+samba-wsdd 
+saned 
+sanoid 
+saslauthd 
+schleuder 
+scollector 
+sdrplayApi 
+seafile 
+searx 
+self-deploy 
+selfoss 
+serviio 
+sftpgo 
+shadowsocks 
+shairport-sync 
+shellhub-agent 
+shibboleth-sp 
+shiori 
+shorewall 
+shorewall6 
+shout 
+sickbeard 
+signald 
+sing-box 
+siproxd 
+sitespeed-io 
+sks 
+skydns 
+slimserver 
+slskd 
+slurm 
+smartd 
+smartdns 
+smokeping 
+snapper 
+snapserver 
+snipe-it 
+sniproxy 
+snowflake-proxy 
+softether 
+soft-serve 
+sogo 
+soju 
+solanum 
+sonarr 
+sourcehut 
+spacecookie 
+spamassassin 
+spark 
+spice-autorandr 
+spice-vdagentd 
+spice-webdavd 
+spiped 
+spotifyd 
+squeezelite 
+squid 
+sshd 
+sshguard 
+sslh 
+sslmate-agent 
+sssd 
+stalwart-mail 
+stargazer 
+static-web-server 
+statsd 
+step-ca 
+stratis 
+strongswan 
+stubby 
+stunnel 
+subsonic 
+sundtek 
+supergfxd 
+supybot 
+surrealdb 
+svnserve 
+switcherooControl 
+sympa 
+syncoid 
+syncplay 
+syncthing 
+synergy 
+syslogd 
+syslog-ng 
+sysprof 
+sysstat 
+system76-scheduler 
+systembus-notify 
+system-config-printer 
+SystemdJournal2Gelf 
+tahoe 
+tailscale 
+tandoor-recipes 
+tang 
+target 
+tarsnap 
+taskserver 
+tautulli 
+tayga 
+tcsd 
+teamspeak3 
+teamviewer 
+teeworlds 
+telegraf 
+telepathy 
+teleport 
+tempo 
+terraria 
+tetrd 
+tftpd 
+thanos 
+thelounge 
+thermald 
+thinkfan 
+throttled 
+tiddlywiki 
+timesyncd 
+tinc 
+tinydns 
+tinyproxy 
+tlp 
+tmate-ssh-server 
+tomcat 
+tor 
+torque 
+touchegg 
+toxBootstrapd 
+tox-node 
+toxvpn 
+tp-auto-kbbl 
+traefik 
+trafficserver 
+transmission 
+tremor-rs 
+trezord 
+trickster 
+triggerhappy 
+trilium-server 
+trust-dns 
+tsmBackup 
+tt-rss 
+tts 
+ttyd 
+tumbler 
+tuptime 
+tvheadend 
+twingate 
+typesense 
+tzupdate 
+u9fs 
+udev 
+udisks2 
+uhub 
+ulogd 
+unbound 
+unclutter 
+unclutter-xfixes 
+undervolt 
+unifi 
+unifi-video 
+unit 
+unpoller 
+upower 
+uptermd 
+uptime 
+uptimed 
+uptime-kuma 
+urserver 
+urxvtd 
+usbguard 
+usbmuxd 
+usbrelayd 
+userdbd 
+uvcvideo 
+uwsgi 
+v2ray 
+v2raya 
+v4l2-relayd 
+varnish 
+vault 
+vault-agent 
+vaultwarden 
+vdirsyncer 
+vdr 
+vector 
+victoriametrics 
+vikunja 
+vmagent 
+vmalert 
+vnstat 
+vsftpd 
+wasabibackend 
+webdav 
+webdav-server-rs 
+webhook 
+weechat 
+wgautomesh 
+wg-netmanager 
+whitebophir 
+wiki-js 
+woodpecker-agents 
+woodpecker-server 
+wordpress 
+writefreely 
+wstunnel 
+wyoming 
+x2goserver 
+xandikos 
+xbanish 
+xe-guest-utilities 
+xfs 
+xinetd 
+xl2tpd 
+xmrig 
+xmr-stak 
+xonotic 
+xray 
+xrdp 
+xserver 
+xtreemfs 
+yandex-disk 
+yggdrasil 
+ympd 
+youtrack 
+yubikey-agent 
+zabbixAgent 
+zabbixProxy 
+zabbixServer 
+zabbixWeb 
+zammad 
+zeitgeist 
+zerobin 
+zeronet 
+zerotierone 
+zeyple 
+zfs 
+zigbee2mqtt 
+zitadel 
+znapzend 
+znc 
+zoneminder 
+zookeeper 
+zope2 
+zram-generator 
+zrepl 
+zwave-js 
