@@ -1,0 +1,26 @@
+Установить пакет из другого канала:
+
+environment.systemPackages = [
+     ...
+     (pkgs.fetchFromGitHub {
+       owner = "NixOS";
+       repo = "nixpkgs";
+       rev = "23.05-rev";  # Replace with the desired channel revision
+       sha256 = "...";     # Replace with the corresponding SHA256
+     }).hello  # Replace with the desired package
+   ];
+
+
+let
+  my-local-channel = import (builtins.fetchTarball {
+    url = "file:///path/to/your/local/channel/nixexprs.tar.xz";
+    sha256 = "...";
+  });
+in
+  {
+    environment.systemPackages = [
+      ...
+      my-local-channel.hello
+      ...
+    ];
+  }
