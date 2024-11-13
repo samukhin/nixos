@@ -51,6 +51,7 @@ jq keys test/options.json | cut -d'.' -f1 | sed 's/"\|,\|]\|\[//g' | sort | uniq
 
 install nixos-options
 nix-env -iA nixos-option -f ~/.nix-defexpr/channels_root/nixpkgs/default.nix
+nix-env -iA nixos.nixos-option
 
 
 Options.json to toml
