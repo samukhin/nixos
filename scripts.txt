@@ -17,6 +17,8 @@ nix repl
 nix-repl> :l <nixpkgs>
 
 nix-build ~/.nix-defexpr/channels_root/nixpkgs/nixos/release.nix -A options
+cat result/share/doc/nixos/options.json
+#либо в каталог /nix/store/...
 
 # Для обработки options.json
 jq keys test/options.json | cut -d'.' -f1 | sort | uniq -c
