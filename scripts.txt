@@ -1,0 +1,33 @@
+
+. ~/.nix-profile/etc/profile.d/nix.sh
+
+
+13.10 - первая стабильная версия NixOS
+15.09 - начало, можно нормально ставить систему
+nixos 16 не умеет нормально с btrfs
+
+inherit вставляет переменную
+
+Если ругается на схему:
+rm /nix/var/nix/db/schema
+
+nixpkgs-review - обратные зависимости
+
+nix repl
+nix-repl> :l <nixpkgs>
+
+nix-build ~/.nix-defexpr/channels_root/nixpkgs/nixos/release.nix -A options
+
+# Для обработки options.json
+jq keys test/options.json | cut -d'.' -f1 | sort | uniq -c
+jq keys test/options.json | cut -d'.' -f1 | sort | sed 's/"//g' | sed 's/,//g' | uniq -c
+jq keys test/options.json | cut -d'.' -f1 | sed 's/"\|,\|]\|\[//g' | sort | uniq -c
+jq keys test/options.json | cut -d'.' -f1 | sed 's/"\|,\|]\|\[//g' | sort | uniq -c | sort -n
+
+
+install nixos-options
+nix-env -iA nixos-option -f ~/.nix-defexpr/channels_root/nixpkgs/default.nix
+
+
+Options.json to toml
+cat options.json | ~/.nix-profile/bin/yj -jt > options.toml
