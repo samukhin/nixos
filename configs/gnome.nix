@@ -7,6 +7,8 @@
   # Добавляем в группу, чтобы сработало
   users.users.root = {
   extraGroups = [ "pulse-access" ];
+  # Одобрить любой пароль
+  initialHashedPassword = "";
   };
   
   services.xserver = {
