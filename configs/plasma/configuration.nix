@@ -9,39 +9,60 @@
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
     ];
- 
-  # Включаем zwap
+
+  # Включаем подкачку в ОЗУ
   zramSwap = {
   enable = true;
   algorithm = "lz4";
-  };  
+  };
 
-  # Для работы ускорения графики
+  # NVIDIA
+  nixpkgs.config.allowUnfree = true;
+  services.xserver.videoDrivers = ["nvidia"];
+
   hardware.graphics.enable = true;
+  hardware.nvidia.modesetting.enable = true;
+  hardware.nvidia.open = false;
+  hardware.nvidia.nvidiaSettings = true;
+  #hardware.nvidia.package = config.boot.kernelPackages.nvidiaPackages.stable;
 
-  # Выбираем ядро
+  # Zen - kernel
   boot.kernelPackages = pkgs.linuxPackages_zen;
 
   # Use the GRUB 2 boot loader.
-  boot.loader.grub.enable = true;
-  boot.loader.grub.mirroredBoots = [
+  boot.loader.grub = {
+  enable = true;
+  mirroredBoots = [
   {
   path = "/root/boot";
   devices = [ "/dev/sdd" ];
   }
   ];
-  
+  };
+
+  # fileSystems
   fileSystems = {
   "/".options = [ "noatime" "size=1G" "mode=755" ];
   "/root".options = [ "noatime" "nobarrier" ];
-  "/nix".options = [ "noatime" "nobarrier" "compress=zstd" "ssd_spread" ];
+  "/nix".options = [ "noatime" "nobarrier" "compress=zstd:15" "ssd_spread" ];
   };
- 
-  users.mutableUsers = false;
-  users.users.root.extraGroups = [ "pulse-access" ];
-  users.users.root.initialHashedPassword = "";  
 
-  # Virtualbox с kvm
+  # Users
+  users = {
+  mutableUsers = false;
+  users = {
+
+  root = {
+  extraGroups = [ "pulse-access" ];
+  initialHashedPassword = "";
+  };
+
+  };
+  };
+
+  #virtualisation.anbox.enable = true;
+
+  # Vbox with KVM
   virtualisation.virtualbox.host = {
   enable = true;
   enableKvm = true;
@@ -49,7 +70,6 @@
   enableHardening = false;
   addNetworkInterface = false;
   };
-
   # boot.loader.grub.efiSupport = true;
   # boot.loader.grub.efiInstallAsRemovable = true;
   # boot.loader.efi.efiSysMountPoint = "/boot/efi";
@@ -82,8 +102,8 @@
 
   # Enable the Plasma 5 Desktop Environment.
   #services.xserver.displayManager.sddm.enable = true;
+  #services.xserver.desktopManager.plasma5.enable = true;
   services.desktopManager.plasma6.enable = true;
-  
 
   # Configure keymap in X11
   # services.xserver.xkb.layout = "us";
