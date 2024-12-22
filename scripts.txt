@@ -29,6 +29,7 @@ nix-collect-garbage  -d
 nixos 16 не умеет нормально с btrfs
 nixos 18.09 to rebuild packages
 nixos 19.09 нет бага с ключами
+Начиная с nixos 21.05 cgroups v2 активны
 nixos-22.11  можно пересобирать
 
 
